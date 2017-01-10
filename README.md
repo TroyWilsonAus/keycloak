@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dsbenghe/keycloak.svg?branch=2.5.0.x)](https://travis-ci.org/dsbenghe/keycloak)
+
 Keycloak
 ========
 
