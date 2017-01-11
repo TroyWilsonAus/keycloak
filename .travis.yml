@@ -7,6 +7,11 @@ cache:
 before_cache:
   - rm -rf $HOME/.m2/repository/org/keycloak
 
+branches:
+  only:
+  - 2.5.0.x
+  - /v\d+\.\d+.\d+/
+
 env:
   global:
     - MAVEN_SKIP_RC=true
@@ -32,3 +37,13 @@ script:
   - ./travis-run-tests.sh $TESTS
 
 sudo: false
+
+deploy:
+  provider: releases
+  api_key:
+    secure: BOYXAcZpOfV7CshlVVmEJvofQZTBAFuV98ByRGwS7sUGHvodW5l5voLD0fFfzPEgU1DxTExdg9l1qcBf362/tEYgWQo/qwNtosSlRI4DR/aMN3cogp103hpnMkImM2TW9Af92kI19CeLSKFvIjZDQp9tbze61uYSw4n1VF7wFME1tqrfSlbPw68VGJ6ohzYv5YlT7XAxXJOeDvlmiO0fN5DiQ6OSbeB+c1YHX/kvBPeZ5Nfx2am19lVzArHor+j/P+F5EXXTAwH0Seusolj8ksvP7R62TvMc6RAEW+NETAfe1dNZPhQV1NwTqHoseD5TsMdbSxjaeCjwc1EaiSLx99WVGPyHKh/RRTikNHwQj7Ghnxw3KRVXP+xlN0RHHUWaHTS8sRqU4jl4dzAnEBy892N2v/Hg20LYltco665DdwZXrTxIwLkZwo9TtFst6zQwSpTsJn7QSbo0OFWhxTjvycXn/d1NkjpXdBeO8TBqTQI/e5lE6VGSI9EriZJmiNdOzjSs/L7CsdjmOREicf55ca79xgxVMfu8p4itq97BN6aBxOBI9E4HWkS3WE4xuhCx3IqoSjqZ+ylYJXq5KxlShEHiaM4/E873ImHqRVYaGUNfapzHRSnnAxsYd8gSqtfy6ibpKJ15lfjCMvnS10jHdjjoj6MM4VOMjroxlXb0Qy4=
+  file_glob: true
+  file: "distribution/server-dist/target/keycloak-*.tar.gz"
+  skip_cleanup: true
+  on:
+    tags: true
