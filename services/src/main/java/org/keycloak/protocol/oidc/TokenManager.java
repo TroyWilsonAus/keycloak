@@ -47,6 +47,7 @@ import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.UserSessionProvider;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.protocol.ProtocolMapper;
+import org.keycloak.protocol.oidc.mappers.AmrMapper;
 import org.keycloak.protocol.oidc.mappers.OIDCAccessTokenMapper;
 import org.keycloak.protocol.oidc.mappers.OIDCIDTokenMapper;
 import org.keycloak.protocol.oidc.mappers.UserInfoTokenMapper;
@@ -76,6 +77,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Stateless object that creates tokens and manages oauth access codes
@@ -603,7 +605,8 @@ public class TokenManager {
 
         String authMethods = session.getNote(AuthenticationManager.AUTH_METHODS);
         if (authMethods != null){
-            token.setAmr(Collections.unmodifiableList(Arrays.asList(authMethods.trim().split(" "))));
+            token.setAmr(Collections.unmodifiableList(Arrays.asList(authMethods.trim().split(" "))
+                    .stream().map(AmrMapper::getAmr).filter(amrValue -> amrValue != null).collect(Collectors.toList())));
         }
 
         if (session != null) {
