@@ -9,7 +9,7 @@ before_cache:
 
 branches:
   only:
-  - 2.5.0.x
+  - 2.5.x
   - /v\d+\.\d+.\d+/
 
 env:
